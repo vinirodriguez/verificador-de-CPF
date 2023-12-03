@@ -1,0 +1,80 @@
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title >Verificador de CPF</title>
+    <style>
+        body {
+           
+            font: normal 15 pt arial; 
+            background-image: url('a.jpg');
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-size: cover; /* Ajusta para cobrir todo o fundo */
+            background-position: center;
+        }
+        h1 {
+            text-align: center;
+            font: normal 15 pt arial;
+            color:rgb(4, 12, 20);
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Verificador de CPF</h1>
+    <section>
+    <input type="text" id="cpf_input" placeholder="Digite o CPF">
+    <button onclick="verificarCPF()">Verificar</button>
+    <p id="resultado"></p>
+    </section>
+    <script>
+        function verificarCPF() {
+            var strcpf = document.getElementById("cpf_input").value;
+            var numdev1 = 0;
+            var numdev2 = 0;
+            var numchekdev1 = parseInt(strcpf[9]);
+            var numchekdev2 = parseInt(strcpf[10]);
+            var i = 1;
+
+            // Verificar número de caracteres do CPF
+            if (strcpf.length < 11) {
+                var difcpf = 11 - strcpf.length;
+                strcpf = '0'.repeat(difcpf) + strcpf;
+            }
+
+            // Cálculo do primeiro dígito verificador
+            for (i = 1; i <= 9; i++) {
+                numdev1 += parseInt(strcpf[i - 1]) * i;
+            }
+            numdev1 = numdev1 % 11;
+            if (numdev1 === 10) {
+                numdev1 = 0;
+            }
+
+            // Verificar o primeiro dígito
+            if (numdev1 !== numchekdev1) {
+                document.getElementById("resultado").textContent = "CPF inválido";
+                return;
+            }
+
+            // Cálculo do segundo dígito verificador
+            for (i = 2; i <= 10; i++) {
+                numdev2 += parseInt(strcpf[i - 1]) * (i - 1);
+            }
+            numdev2 = numdev2 % 11;
+            if (numdev2 === 10) {
+                numdev2 = 0;
+            }
+
+            // Verificar o segundo dígito
+            if (numdev2 !== numchekdev2) {
+                document.getElementById("resultado").textContent = "CPF inválido";
+                return;
+            }
+
+            document.getElementById("resultado").textContent = "CPF válido";
+        }
+    </script>
+</body>
+</html>
